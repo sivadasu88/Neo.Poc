@@ -34,7 +34,7 @@ namespace Neo.Poc.Controllers
             }
 
             var neoTest = await _context.NeoTests
-                .FirstOrDefaultAsync(m => m.Row_id == id);
+                .FirstOrDefaultAsync(m => m.NeoTestId == id);
             if (neoTest == null)
             {
                 return NotFound();
@@ -58,7 +58,7 @@ namespace Neo.Poc.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(neoTest);
+                _context.NeoTests.Add(neoTest);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -88,7 +88,7 @@ namespace Neo.Poc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Genre,Rating,ImdbUrl,ImageUrl")] NeoTest neoTest)
         {
-            if (id != neoTest.Row_id)
+            if (id != neoTest.NeoTestId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace Neo.Poc.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!neoTestExists(neoTest.Row_id))
+                    if (!neoTestExists(neoTest.NeoTestId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace Neo.Poc.Controllers
             }
 
             var neoTest = await _context.NeoTests
-                .FirstOrDefaultAsync(m => m.Row_id == id);
+                .FirstOrDefaultAsync(m => m.NeoTestId == id);
             if (neoTest == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace Neo.Poc.Controllers
 
         private bool neoTestExists(int id)
         {
-            return _context.NeoTests.Any(e => e.Row_id == id);
+            return _context.NeoTests.Any(e => e.NeoTestId == id);
         }
     }
 }

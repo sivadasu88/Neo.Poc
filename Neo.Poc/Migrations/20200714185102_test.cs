@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Neo.Poc.Migrations
 {
-    public partial class AddedTables : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,63 +10,75 @@ namespace Neo.Poc.Migrations
                 name: "City",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    CityId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StateId = table.Column<int>(nullable: false),
                     CityName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_City", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Country",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CountryName = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Country", x => x.Id);
+                    table.PrimaryKey("PK_City", x => x.CityId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Neo_Test",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    NeoTestId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<int>(nullable: false),
+                    EmailAddress = table.Column<string>(nullable: true),
                     CountryId = table.Column<int>(nullable: false),
                     StateId = table.Column<int>(nullable: false),
                     CityId = table.Column<int>(nullable: false),
                     PanNumber = table.Column<string>(nullable: true),
                     PassportNumber = table.Column<string>(nullable: true),
-                    ProfileImage = table.Column<byte[]>(nullable: true),
+                    ProfileImage = table.Column<string>(nullable: true),
                     Gender = table.Column<string>(nullable: true),
-                    IsActive = table.Column<string>(nullable: true)
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Neo_Test", x => x.Id);
+                    table.PrimaryKey("PK_Neo_Test", x => x.NeoTestId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "State",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    StateId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<int>(nullable: false),
                     StateName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_State", x => x.Id);
+                    table.PrimaryKey("PK_State", x => x.StateId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Country",
+                columns: table => new
+                {
+                    CountryId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CountryName = table.Column<string>(nullable: true),
+                    NeoTestId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Country", x => x.CountryId);
+                    table.ForeignKey(
+                        name: "FK_Country_Neo_Test_NeoTestId",
+                        column: x => x.NeoTestId,
+                        principalTable: "Neo_Test",
+                        principalColumn: "NeoTestId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Country_NeoTestId",
+                table: "Country",
+                column: "NeoTestId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -79,10 +90,10 @@ namespace Neo.Poc.Migrations
                 name: "Country");
 
             migrationBuilder.DropTable(
-                name: "Neo_Test");
+                name: "State");
 
             migrationBuilder.DropTable(
-                name: "State");
+                name: "Neo_Test");
         }
     }
 }

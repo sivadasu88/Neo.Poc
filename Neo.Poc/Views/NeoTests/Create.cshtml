@@ -19,8 +19,8 @@
             </div>
             <div class="form-group">
                 @Html.DropDownListFor(m => m.CountryId,
-                      new SelectList(Model.Countries, "Row_id", "CountryName"))
-                <span asp-validation-for="Countries" class="text-danger"></span>
+                      new SelectList(@Neo.Poc.Models.NeoTest.GetCountries(), "CountryId", "CountryName"))
+                <span asp-validation-for="@Neo.Poc.Models.NeoTest.GetCountries()" class="text-danger"></span>
             </div>
           
             <div class="form-group">

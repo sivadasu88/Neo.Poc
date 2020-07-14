@@ -10,12 +10,10 @@ namespace Neo.Poc.Models
     [Table("Neo_Test")]
     public class NeoTest
     {  
-        [Key]
-        public int Row_id { get; set; }
+       
+        public int NeoTestId { get; set; }
         public string EmailAddress { get; set; }
-        public List<Country> Countries { get; set; } = new List<Country>() { new Country() { Row_id = 1, CountryName = "India" }, 
-            new Country() { Row_id = 2, CountryName = "USA" }
-        };
+      
         public int CountryId { get; set; }
         public int StateId { get; set; }
         public int CityId { get; set; }
@@ -23,27 +21,32 @@ namespace Neo.Poc.Models
         public string PassportNumber { get; set; }
         public string ProfileImage { get; set; }
         public string Gender { get; set; }
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
+        //public virtual List<Country> Countries { get; set; }
         public NeoTest()
         {
-            Countries = new List<Country>() { new Country() { Row_id = 1, CountryName = "India" },
-            new Country() { Row_id = 2, CountryName = "USA" } };
+            
         }
 
+        public static List<Country> GetCountries()
+        {
+            return  new List<Country>() { new Country() { CountryId = 1, CountryName = "India" },
+            new Country() { CountryId = 2, CountryName = "USA" } };
+        }
     }
 
     [Table("Country")]
     public class Country
     {
         [Key]
-        public int Row_id { get; set; }
+        public int CountryId { get; set; }
         public string CountryName { get; set; }
     }
     [Table("State")]
     public class State
     {
         [Key]
-        public int Row_id { get; set; }
+        public int StateId { get; set; }
         public int CountryId { get; set; }
         public string StateName { get; set; }
     }
@@ -51,7 +54,7 @@ namespace Neo.Poc.Models
     public class City
     {
         [Key]
-        public int Row_id { get; set; }
+        public int CityId { get; set; }
         public int StateId { get; set; }
         public string CityName { get; set; }
     }

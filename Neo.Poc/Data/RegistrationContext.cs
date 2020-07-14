@@ -20,7 +20,29 @@ namespace AspNetCoreWebApp.Models
         public DbSet<Country> Country { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }
-        
-           
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Country>(b =>
+            {
+                b.HasKey(e => e.CountryId);
+                b.Property(e => e.CountryId).ValueGeneratedOnAdd();
+            });
+            modelBuilder.Entity<NeoTest>(b =>
+            {
+                b.HasKey(e => e.NeoTestId);
+                b.Property(e => e.NeoTestId).ValueGeneratedOnAdd();
+            });
+            modelBuilder.Entity<State>(b =>
+            {
+                b.HasKey(e => e.StateId);
+                b.Property(e => e.StateId).ValueGeneratedOnAdd();
+            });
+            modelBuilder.Entity<City>(b =>
+            {
+                b.HasKey(e => e.CityId);
+                b.Property(e => e.CityId).ValueGeneratedOnAdd();
+            });
+        }
+
     }
 }
